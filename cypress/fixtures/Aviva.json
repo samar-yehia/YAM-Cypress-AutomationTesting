@@ -1,0 +1,32 @@
+[
+ {
+  "Firstname": "Morine",
+  "Lastname": "Ezzat",
+  "Phone": 22222222222,
+  "Email": "morine.e@trufla.com"
+ },
+ {
+  "Firstname": "Samar",
+  "Lastname": "Yehia",
+  "Phone": 44444444444,
+  "Email": "samar@trufla.com"
+ },
+ {
+  "Firstname": "Maggie",
+  "Lastname": "Rafat",
+  "Phone": 12345678900,
+  "Email": "Maggie@trufla.com"
+ },
+ {
+  "Firstname": "Joe",
+  "Lastname": "Samir",
+  "Phone": 77777777777,
+  "Email": "Joe@trufla.com"
+ },
+ {
+  "Firstname": "Hamed",
+  "Lastname": "Mohamed",
+  "Phone": 88888888888,
+  "Email": "Hamed@trufla.com"
+ }
+]
