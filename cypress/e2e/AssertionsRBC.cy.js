@@ -5,7 +5,7 @@
 //     return re.test(email);
 // }
 
-  
+
 
 describe("Add valid data", function () {
 
@@ -56,13 +56,8 @@ describe("Add valid data", function () {
 
 
                     // Page 1
-                    if (viewport == [568, 320]) {                 // rotated iPad7th
-                        cy.get('#input_70_4').type('downarrow')
 
-                    }
-                    else {
-                        cy.get('#input_70_4', { timeout: 60000 }).should('be.visible').select(user[i].Title)
-                    }
+                    cy.get('#input_70_4', { timeout: 60000 }).should('be.visible').select(user[i].Title)
                     // expect(user[i].Title).to.not.be.null;
                     expect(user[i].Title).to.exist;
                     expect(user[i].Title).to.not.equal('Check one');
@@ -81,12 +76,10 @@ describe("Add valid data", function () {
                     expect(user[i].Firstname).to.be.a('string');
                     //cy.wait(1500);
 
-                    if (viewport == [568, 320]) {                 // rotated iPad7th
-                        cy.get('#input_70_589').type('downarrow')
-                    }
-                    else {
-                        cy.get('#input_70_589', { timeout: 60000 }).type(user[i].Middlename);
-                    }
+
+
+                    cy.get('#input_70_589', { timeout: 60000 }).type(user[i].Middlename);
+
                     expect(user[i].Middlename).to.be.a('string');
                     //cy.wait(1500);
 
