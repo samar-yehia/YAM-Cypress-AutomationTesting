@@ -5,16 +5,22 @@
 //     return re.test(email);
 // }
 
-// hello test    
+
 
 describe("Add valid data", function () {
-    // iphone XS, Rotated iphoneXS , iPad7th ,Rotated ipad7 ,Desktop  , Samsung S8+ , Rotated SamsungS8+
-    // [[375 ,	812],[812 , 375], [320 , 568], [568 , 320] ,  [2279,1938], [360,740], [740 , 360]].forEach(viewport => {   // [1536 , 864] is our desktop dimensions
+
+    // iphone XS, Rotated iphoneXS ,iPad7th ,Rotated ipad7 ,Desktop  , Samsung S8+ ,Rotated SamsungS8+
+    // [[375, 812], [812, 375], [320, 568], [568, 320], [2279, 1938], [360, 740], [740, 360]].forEach(viewport => {   // [1536 , 864] is our desktop dimensions
     [[1536, 864]].forEach(viewport => {
+        // [[568, 320]].forEach(viewport => {
+
+
         it("Add valid data in all fields", function () {
 
             cy.fixture('RBC-Form-Valid').then((user) => {
-                for (var i = 0; i < user.length; i++) {
+                for (var i = 0; i < 1; i++) {
+
+                    // for (var i = 0; i < user.length; i++) {
 
                     if (Cypress._.isArray(viewport)) {             //this contition is to check the height and width. If it not set, only the first number will be tested and it will fail
                         cy.viewport(viewport[0], viewport[1])
@@ -70,7 +76,10 @@ describe("Add valid data", function () {
                     expect(user[i].Firstname).to.be.a('string');
                     //cy.wait(1500);
 
+
+
                     cy.get('#input_70_589', { timeout: 60000 }).type(user[i].Middlename);
+
                     expect(user[i].Middlename).to.be.a('string');
                     //cy.wait(1500);
 
@@ -158,7 +167,7 @@ describe("Add valid data", function () {
 
                     cy.get('#input_70_566', { timeout: 60000 }).type(user[i].PostalCode);
                     expect(user[i].PostalCode).to.exist;
-                    expect(user[i].PostalCode).to.match(/^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/);
+                    expect(user[i].PostalCode).to.match(/^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/);
                     //cy.wait(1500);
 
                     cy.get('#input_70_34', { timeout: 60000 }).type(user[i].Email);
@@ -197,7 +206,7 @@ describe("Add valid data", function () {
 
                     cy.get('#input_70_567', { timeout: 60000 }).type(user[i].EmployerPostalCode);
                     expect(user[i].EmployerPostalCode).to.exist;
-                    expect(user[i].EmployerPostalCode).to.match(/^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/);
+                    expect(user[i].EmployerPostalCode).to.match(/^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/);
 
                     //cy.wait(1500);
                     cy.get('#input_70_48', { timeout: 60000 }).type(user[i].EmployerCity);
@@ -229,8 +238,9 @@ describe("Add valid data", function () {
                     // Page 2
 
                     var PurposeOfInsurance1 = user[i].PurposeOfInsurance1;
-                    cy.get(PurposeOfInsurance1, { timeout: 60000 }).should('be.visible').click();
-                    // expect(PurposeOfInsurance1).to.exist;
+                    cy.get('#label_70_57_1', { timeout: 60000 }).should('be.visible')
+                    cy.get(PurposeOfInsurance1, { timeout: 60000 }).click();
+                    expect(PurposeOfInsurance1).to.exist;
                     var PurposeOfInsurance2 = user[i].PurposeOfInsurance2;
                     var PurposeOfInsurance3 = user[i].PurposeOfInsurance3;
 
@@ -342,7 +352,7 @@ describe("Add valid data", function () {
                     //cy.wait(1500);
                     cy.get('#input_70_568', { timeout: 60000 }).type(user[i].MailingPostalCode);
                     expect(user[i].MailingPostalCode).to.exist;
-                    expect(user[i].MailingPostalCode).to.match(/^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/);
+                    expect(user[i].MailingPostalCode).to.match(/^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/);
 
                     //cy.wait(1500);
                     cy.get('#input_70_164', { timeout: 60000 }).type(user[i].AttentionTo);
@@ -517,161 +527,163 @@ describe("Add valid data", function () {
                     var ParamedicalRequested = user[i].ParamedicalRequested;
                     cy.get(ParamedicalRequested, { timeout: 60000 }).check();
                     //cy.wait(1500);
-                    //cy.wait(4000);
+                    cy.wait(4000);
                     cy.get('#gform_next_button_70_505').click();
 
                     //Page 8
+                    // if paramedical request = Yes ==> pages 12-16 are not required
 
-                    cy.get('#input_70_664', { timeout: 60000 }).should('be.visible').type(user[i].CurrentHeight);
-                    //cy.wait(1500);
-                    var heightUnit = user[i].HeightUnit;
-                    cy.get(heightUnit, { timeout: 60000 }).check();
-                    //cy.wait(1500);
-                    cy.get('#input_70_273', { timeout: 60000 }).type(user[i].CurrentWeight);
-                    //cy.wait(1500);
-                    var WeightUnit = user[i].WeightUnit
-                    cy.get(WeightUnit, { timeout: 60000 }).check();
-                    //cy.wait(1500);
-                    var weightloss = user[i].HaveYouLost10lb5kgOrMoreWithinThePast12Months;
-                    cy.get(weightloss).check();
-                    //cy.wait(1500);
-                    var medicalObservation = user[i].AreYouPresentlyUnderMedicalObservationOrInvestigationTreatmentTherapyCounsellingOrTakingMedication;
-                    cy.get(medicalObservation).check();
-                    //cy.wait(1500);
-                    var symptoms = user[i].HaveYouHadAnySymptomsOrComplaintsRegardingYourHealthForWhichYouHaveNotYetConsultedaPhysicianOrReceivedTreatment;
-                    cy.get(symptoms).check();
-                    //cy.wait(1500);
-                    cy.get('#input_70_289', { timeout: 60000 }).type(user[i].WhoIsYourFamilyPhysicianOrRegularHealthcareProviderOrClinic);
-                    //cy.wait(1500);
-                    cy.get('#input_70_290', { timeout: 60000 }).type(user[i].ProvideTheFullAddressAndPhoneNumber);
-                    //cy.wait(1500);
-                    cy.get('#input_70_293', { timeout: 60000 }).type(user[i].ProvideTheNameOfTheHealthcareProviderWhoHasYourMostRecentHealthRecordIfDifferentFromYourRegularHealthcareProviderOrClinic);
-                    //cy.wait(1500);
-                    cy.get('#input_70_294', { timeout: 60000 }).type(user[i].WhatIsTheDateAndReasonForYourLastConsultationWithAnyPhysicianOrHealthcareProviderTheNameOfTheProviderAndTheOutcomeResults);
-                    //cy.wait(1500);
-                    var investigationOrReferral = user[i].WasAnyFollowUpFurtherInvestigationOrReferralToAnotherHealthcareProfessionalRecommended;
-                    cy.get(investigationOrReferral).check();
-                    //cy.wait(1500);
-                    //cy.wait(4000);
-                    cy.get('#gform_next_button_70_298').click();
-
-
-                    //Page 9 
-
-                    var Cigarettes = user[i].InThePast24MonthsHaveYouUsedCigarettesEcigarettesVapingProductsCigarsWaterPipesBetelNutSmokingCessationProductsNicotineOrTobaccoInAnyForm;
-                    cy.get(Cigarettes, { timeout: 60000 }).should('be.visible').check();
-                    //cy.wait(1500);
-                    var MarijuanaOrHashish = user[i].HaveYouUsedMarijuanaAndOrHashishWithinThePast5Years;
-                    cy.get(MarijuanaOrHashish).check();
-                    //cy.wait(1500);
-                    var Alcoholic = user[i].DoYouConsumeAlcoholicBeverages;
-                    cy.get(Alcoholic).check();
-                    //cy.wait(1500);
-                    var ExcessiveAlcohol = user[i].HaveYouEverSoughtOrReceivedAdviceOrTreatmentRelatingToAlcoholUseOrUsedAlcoholExcessively;
-                    cy.get(ExcessiveAlcohol).check();
-                    //cy.wait(1500);
-                    var Drugs = user[i].HaveYouEverUsedCocaineBarbituratesCrackOrAnyOtherNarcoticDrugOrEverSoughtOrReceivedAdviceOrTreatmentForTheUseOfDrugsPrescribedOrNonPrescribed;
-                    cy.get(Drugs).check();
-                    //cy.wait(1500);
-                    var ImmuneDeficiency = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAcquiredImmuneDeficiencySyndromeAIDSRelatedComplexAIDSRelatedConditionsOrHaveYouTestedPositiveForAntibodiesToTheAIDSVirusOrHIV;
-                    cy.get(ImmuneDeficiency).check();
-                    //cy.wait(1500);
-                    var Disease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyDiseaseOrDisorderOfTheEyesEarsNoseOrThroatIncludingLossOfSpeech;
-                    cy.get(Disease).check();
-                    //cy.wait(1500);
-                    var SleepDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForSleepApneaChronicInsomniaOrAnyOtherSleepDisorder;
-                    cy.get(SleepDisorder).check();
-                    //cy.wait(1500);
-                    var HeartOrCirculatorySystem = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForCholesterolPeripheralVascularDiseaseOrAnyDiseaseOrDisorderOfTheHeartOrCirculatorySystem;
-                    cy.get(HeartOrCirculatorySystem).check();
-                    //cy.wait(1500);
-                    var BrainOrNervousSystem = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForStrokeTransientIschemicAttackTIAHeadachesCognitiveImpairmentMemoryDisorderParkinsonsDiseaseAlzheimersDiseaseMotorNeuronDiseaseHuntingtonsDiseaseFaintingSpellsDizzinessSeizuresEpilepsyParalysisMultipleSclerosisMuscleWeaknessNumbnessOrTinglingOfTheLimbsOrAnyDiseaseOrDisorderOfTheBrainOrNervousSystem;
-                    cy.get(BrainOrNervousSystem).check();
-                    //cy.wait(1500);
-                    var UrineDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyDiseaseOrDisorderOfTheKidneysUrinaryTractBladderProstateOrGenitalOrgansOrKidneyStonesOrAlbuminBloodOrSugarInTheUrine;
-                    cy.get(UrineDisorder).check();
-                    //cy.wait(1500);
-                    var PsychiatricDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnxietyDepressionNervousnessStressFatigueBurnoutEatingDisorderOtherEmotionalDisorderPsychiatricDisorderMentalDisorderOrPsychosisOrEverAttemptedSuicide;
-                    cy.get(PsychiatricDisorder).check();
-                    //cy.wait(1500);
-                    var ChronicFatigue = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForChronicFatigueChronicFatigueSyndromeEpsteinBarrVirusFibromyalgiaOrChronicPain;
-                    cy.get(ChronicFatigue).check();
-                    //cy.wait(1500);
-                    var MalignantDisease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForCancerDysplasticNeviTumorCystMassLesionLumpNodulePolypOrOtherGrowthAnyDisorderOfTheSkinOrLymphGlandsBloodDisorderOrAnyFormOfMalignantDisease;
-                    cy.get(MalignantDisease).check();
-                    //cy.wait(1500);
-                    var BloodSugar = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForDiabetesEndocrineDisorderElevatedBloodSugarThyroidDiseaseRheumatismRheumaticFeverLupusGoutOrSyphilis;
-                    cy.get(BloodSugar).check();
-                    //cy.wait(1500);
-                    var ReproductiveOrgans = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyDiseaseOrDisorderOfReproductiveOrgansOrBreastIncludingLumpsCystsOrOtherMassesOtherPhysicalChangesAbnormalMammogramFindingsOrAnyBiopsy;
-                    cy.get(ReproductiveOrgans).check();
-                    //cy.wait(1500);
-                    var Deformity = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyAmputationOrDeformityHerniaOrRuptureDeepVeinThrombosisOrVaricoseVeins;
-                    cy.get(Deformity).check();
-                    //cy.wait(1500);
-                    var JointDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyArthritisDiseaseOrDisorderOfTheMusclesBonesHipAnkleKneeWristElbowShoulderHandsFeetOrAnyOtherJoint;
-                    cy.get(JointDisorder).check();
-                    //cy.wait(1500);
-                    var BackDisease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyTypeOfBackOrSpinalTroubleIncludingSprainStrainOrDiscDiseaseOrDisorder;
-                    cy.get(BackDisease).check();
-                    //cy.wait(1500);
-                    var ChestOrLungs = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyTypeOfShortnessOfBreathPersistentCoughAsthmaEmphysemaBronchitisPleurisyTuberculosisOrAnyDiseaseOrDisorderOfTheChestOrLungs;
-                    cy.get(ChestOrLungs).check();
-                    //cy.wait(1500);
-                    var StomachDisease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyTypeOfPepticUlcerIndigestionColitisOrAnyDiseaseOrDisorderOfTheStomachColonOrIntestinesGallBladderLiverPancreasOrHaveYouTestedPositiveForHepatitisAndOrBeenToldYouAreACarrier;
-                    cy.get(StomachDisease).check();
-                    //cy.wait(1500);
-                    var Practitioner = user[i].HaveYouInThePast10YearsBeenExaminedByOrConsultedAPhysicianChiropractorPsychologistPhysiotherapistOsteopathHomeopathOrOtherPractitioner;
-                    cy.get(Practitioner).check();
-                    //cy.wait(1500);
-                    var UnderHospitalObservation = user[i].HaveYouInThePast10YearsBeenUnderObservationOrTreatmentInAnyHospitalOrOtherInstitutionOrFacilityOrBeenAdvisedToBeAdmitted;
-                    cy.get(UnderHospitalObservation).check();
-                    //cy.wait(1500);
-                    var DiagnosticTests = user[i].HaveYouInThePast10YearsHadAnXrayECGCTScanMRIBloodOrUrineTestAbnormalPSAProstateSpecificAntigenTestOrOtherDiagnosticTests;
-                    cy.get(DiagnosticTests).check();
-                    //cy.wait(1500);
-                    var NotCompletedSurgeryOrTest = user[i].HaveYouInThePast10YearsBeenAdvisedToHaveAnyDiagnosticTestBeHospitalizedOrHaveSurgeryWhichWasNotCompleted;
-                    cy.get(NotCompletedSurgeryOrTest).check();
-                    //cy.wait(1500);
-                    var NaturalParentsDisease = user[i].HaveYournaturalParentsBrothersOrSistersEitherLivingOrDeadEverSufferedFromAnyOfTheFollowingConditionsHeartDiseasePolycysticKidneyDiseaseHighBloodPressureAStrokeDiabetesCancerMultipleSclerosisAlzheimersDiseaseHuntingtonsDiseaseParkinsonsDiseaseMotorNeuronDiseaseOrAnyFormOfHereditaryDisease;
-                    cy.get(NaturalParentsDisease).check();
-                    //cy.wait(1500);
-                    var PregnancyComplications = user[i].HaveYouEverHadAMiscarriageOrOtherComplicationOfPregnancy;
-                    cy.get(PregnancyComplications).check();
-                    //cy.wait(1500);
+                    if (ParamedicalRequested == '#choice_70_266_1') {
+                        cy.get('#input_70_664', { timeout: 60000 }).should('be.visible').type(user[i].CurrentHeight);
+                        //cy.wait(1500);
+                        var heightUnit = user[i].HeightUnit;
+                        cy.get(heightUnit, { timeout: 60000 }).check();
+                        //cy.wait(1500);
+                        cy.get('#input_70_273', { timeout: 60000 }).type(user[i].CurrentWeight);
+                        //cy.wait(1500);
+                        var WeightUnit = user[i].WeightUnit
+                        cy.get(WeightUnit, { timeout: 60000 }).check();
+                        //cy.wait(1500);
+                        var weightloss = user[i].HaveYouLost10lb5kgOrMoreWithinThePast12Months;
+                        cy.get(weightloss).check();
+                        //cy.wait(1500);
+                        var medicalObservation = user[i].AreYouPresentlyUnderMedicalObservationOrInvestigationTreatmentTherapyCounsellingOrTakingMedication;
+                        cy.get(medicalObservation).check();
+                        //cy.wait(1500);
+                        var symptoms = user[i].HaveYouHadAnySymptomsOrComplaintsRegardingYourHealthForWhichYouHaveNotYetConsultedaPhysicianOrReceivedTreatment;
+                        cy.get(symptoms).check();
+                        //cy.wait(1500);
+                        cy.get('#input_70_289', { timeout: 60000 }).type(user[i].WhoIsYourFamilyPhysicianOrRegularHealthcareProviderOrClinic);
+                        //cy.wait(1500);
+                        cy.get('#input_70_290', { timeout: 60000 }).type(user[i].ProvideTheFullAddressAndPhoneNumber);
+                        //cy.wait(1500);
+                        cy.get('#input_70_293', { timeout: 60000 }).type(user[i].ProvideTheNameOfTheHealthcareProviderWhoHasYourMostRecentHealthRecordIfDifferentFromYourRegularHealthcareProviderOrClinic);
+                        //cy.wait(1500);
+                        cy.get('#input_70_294', { timeout: 60000 }).type(user[i].WhatIsTheDateAndReasonForYourLastConsultationWithAnyPhysicianOrHealthcareProviderTheNameOfTheProviderAndTheOutcomeResults);
+                        //cy.wait(1500);
+                        var investigationOrReferral = user[i].WasAnyFollowUpFurtherInvestigationOrReferralToAnotherHealthcareProfessionalRecommended;
+                        cy.get(investigationOrReferral).check();
+                        //cy.wait(1500);
+                        //cy.wait(4000);
+                        cy.get('#gform_next_button_70_298').click();
 
 
-                    var AreYouPregnant = user[i].AreYouPregnant;
-                    cy.get(AreYouPregnant).check();
+                        //Page 9 
 
-                    //******* if Yes, add a condition
+                        var Cigarettes = user[i].InThePast24MonthsHaveYouUsedCigarettesEcigarettesVapingProductsCigarsWaterPipesBetelNutSmokingCessationProductsNicotineOrTobaccoInAnyForm;
+                        cy.get(Cigarettes, { timeout: 60000 }).should('be.visible').check();
+                        //cy.wait(1500);
+                        var MarijuanaOrHashish = user[i].HaveYouUsedMarijuanaAndOrHashishWithinThePast5Years;
+                        cy.get(MarijuanaOrHashish).check();
+                        //cy.wait(1500);
+                        var Alcoholic = user[i].DoYouConsumeAlcoholicBeverages;
+                        cy.get(Alcoholic).check();
+                        //cy.wait(1500);
+                        var ExcessiveAlcohol = user[i].HaveYouEverSoughtOrReceivedAdviceOrTreatmentRelatingToAlcoholUseOrUsedAlcoholExcessively;
+                        cy.get(ExcessiveAlcohol).check();
+                        //cy.wait(1500);
+                        var Drugs = user[i].HaveYouEverUsedCocaineBarbituratesCrackOrAnyOtherNarcoticDrugOrEverSoughtOrReceivedAdviceOrTreatmentForTheUseOfDrugsPrescribedOrNonPrescribed;
+                        cy.get(Drugs).check();
+                        //cy.wait(1500);
+                        var ImmuneDeficiency = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAcquiredImmuneDeficiencySyndromeAIDSRelatedComplexAIDSRelatedConditionsOrHaveYouTestedPositiveForAntibodiesToTheAIDSVirusOrHIV;
+                        cy.get(ImmuneDeficiency).check();
+                        //cy.wait(1500);
+                        var Disease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyDiseaseOrDisorderOfTheEyesEarsNoseOrThroatIncludingLossOfSpeech;
+                        cy.get(Disease).check();
+                        //cy.wait(1500);
+                        var SleepDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForSleepApneaChronicInsomniaOrAnyOtherSleepDisorder;
+                        cy.get(SleepDisorder).check();
+                        //cy.wait(1500);
+                        var HeartOrCirculatorySystem = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForCholesterolPeripheralVascularDiseaseOrAnyDiseaseOrDisorderOfTheHeartOrCirculatorySystem;
+                        cy.get(HeartOrCirculatorySystem).check();
+                        //cy.wait(1500);
+                        var BrainOrNervousSystem = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForStrokeTransientIschemicAttackTIAHeadachesCognitiveImpairmentMemoryDisorderParkinsonsDiseaseAlzheimersDiseaseMotorNeuronDiseaseHuntingtonsDiseaseFaintingSpellsDizzinessSeizuresEpilepsyParalysisMultipleSclerosisMuscleWeaknessNumbnessOrTinglingOfTheLimbsOrAnyDiseaseOrDisorderOfTheBrainOrNervousSystem;
+                        cy.get(BrainOrNervousSystem).check();
+                        //cy.wait(1500);
+                        var UrineDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyDiseaseOrDisorderOfTheKidneysUrinaryTractBladderProstateOrGenitalOrgansOrKidneyStonesOrAlbuminBloodOrSugarInTheUrine;
+                        cy.get(UrineDisorder).check();
+                        //cy.wait(1500);
+                        var PsychiatricDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnxietyDepressionNervousnessStressFatigueBurnoutEatingDisorderOtherEmotionalDisorderPsychiatricDisorderMentalDisorderOrPsychosisOrEverAttemptedSuicide;
+                        cy.get(PsychiatricDisorder).check();
+                        //cy.wait(1500);
+                        var ChronicFatigue = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForChronicFatigueChronicFatigueSyndromeEpsteinBarrVirusFibromyalgiaOrChronicPain;
+                        cy.get(ChronicFatigue).check();
+                        //cy.wait(1500);
+                        var MalignantDisease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForCancerDysplasticNeviTumorCystMassLesionLumpNodulePolypOrOtherGrowthAnyDisorderOfTheSkinOrLymphGlandsBloodDisorderOrAnyFormOfMalignantDisease;
+                        cy.get(MalignantDisease).check();
+                        //cy.wait(1500);
+                        var BloodSugar = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForDiabetesEndocrineDisorderElevatedBloodSugarThyroidDiseaseRheumatismRheumaticFeverLupusGoutOrSyphilis;
+                        cy.get(BloodSugar).check();
+                        //cy.wait(1500);
+                        var ReproductiveOrgans = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyDiseaseOrDisorderOfReproductiveOrgansOrBreastIncludingLumpsCystsOrOtherMassesOtherPhysicalChangesAbnormalMammogramFindingsOrAnyBiopsy;
+                        cy.get(ReproductiveOrgans).check();
+                        //cy.wait(1500);
+                        var Deformity = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyAmputationOrDeformityHerniaOrRuptureDeepVeinThrombosisOrVaricoseVeins;
+                        cy.get(Deformity).check();
+                        //cy.wait(1500);
+                        var JointDisorder = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyArthritisDiseaseOrDisorderOfTheMusclesBonesHipAnkleKneeWristElbowShoulderHandsFeetOrAnyOtherJoint;
+                        cy.get(JointDisorder).check();
+                        //cy.wait(1500);
+                        var BackDisease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyTypeOfBackOrSpinalTroubleIncludingSprainStrainOrDiscDiseaseOrDisorder;
+                        cy.get(BackDisease).check();
+                        //cy.wait(1500);
+                        var ChestOrLungs = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyTypeOfShortnessOfBreathPersistentCoughAsthmaEmphysemaBronchitisPleurisyTuberculosisOrAnyDiseaseOrDisorderOfTheChestOrLungs;
+                        cy.get(ChestOrLungs).check();
+                        //cy.wait(1500);
+                        var StomachDisease = user[i].HaveYouEverHadAnyKnownIndicationOfOrBeenTreatedForAnyTypeOfPepticUlcerIndigestionColitisOrAnyDiseaseOrDisorderOfTheStomachColonOrIntestinesGallBladderLiverPancreasOrHaveYouTestedPositiveForHepatitisAndOrBeenToldYouAreACarrier;
+                        cy.get(StomachDisease).check();
+                        //cy.wait(1500);
+                        var Practitioner = user[i].HaveYouInThePast10YearsBeenExaminedByOrConsultedAPhysicianChiropractorPsychologistPhysiotherapistOsteopathHomeopathOrOtherPractitioner;
+                        cy.get(Practitioner).check();
+                        //cy.wait(1500);
+                        var UnderHospitalObservation = user[i].HaveYouInThePast10YearsBeenUnderObservationOrTreatmentInAnyHospitalOrOtherInstitutionOrFacilityOrBeenAdvisedToBeAdmitted;
+                        cy.get(UnderHospitalObservation).check();
+                        //cy.wait(1500);
+                        var DiagnosticTests = user[i].HaveYouInThePast10YearsHadAnXrayECGCTScanMRIBloodOrUrineTestAbnormalPSAProstateSpecificAntigenTestOrOtherDiagnosticTests;
+                        cy.get(DiagnosticTests).check();
+                        //cy.wait(1500);
+                        var NotCompletedSurgeryOrTest = user[i].HaveYouInThePast10YearsBeenAdvisedToHaveAnyDiagnosticTestBeHospitalizedOrHaveSurgeryWhichWasNotCompleted;
+                        cy.get(NotCompletedSurgeryOrTest).check();
+                        //cy.wait(1500);
+                        var NaturalParentsDisease = user[i].HaveYournaturalParentsBrothersOrSistersEitherLivingOrDeadEverSufferedFromAnyOfTheFollowingConditionsHeartDiseasePolycysticKidneyDiseaseHighBloodPressureAStrokeDiabetesCancerMultipleSclerosisAlzheimersDiseaseHuntingtonsDiseaseParkinsonsDiseaseMotorNeuronDiseaseOrAnyFormOfHereditaryDisease;
+                        cy.get(NaturalParentsDisease).check();
+                        //cy.wait(1500);
+                        var PregnancyComplications = user[i].HaveYouEverHadAMiscarriageOrOtherComplicationOfPregnancy;
+                        cy.get(PregnancyComplications).check();
+                        //cy.wait(1500);
 
-                    if (AreYouPregnant == "#choice_70_420_0") {
 
-                        // cy.get('#input_70_422').click();
+                        var AreYouPregnant = user[i].AreYouPregnant;
+                        cy.get(AreYouPregnant).check();
 
-                        // var Year = user[i].DueDateYear;
-                        // cy.get('[aria-label="Select year"]', { timeout: 60000 }).select(Year);
+                        //******* if Yes, add a condition
 
+                        if (AreYouPregnant == "#choice_70_420_0") {
 
-                        cy.get('#input_70_422').type(user[i].DueDate).type('Cypress.io{enter}');
+                            // cy.get('#input_70_422').click();
 
-                        // cy.get('.ui-datepicker-year', { timeout: 60000 }).select('2022')
-
-                        // cy.get('.ui-datepicker-month', { timeout: 60000 }).select(user[i].DueDateMonth)
-
-                        // var PregnancyDueDay = user[i].DueDateDay
-                        // cy.get(PregnancyDueDay).click();
+                            // var Year = user[i].DueDateYear;
+                            // cy.get('[aria-label="Select year"]', { timeout: 60000 }).select(Year);
 
 
+                            cy.get('#input_70_422').type(user[i].DueDate).type('Cypress.io{enter}');
 
-                        // cy.get('#input_70_422_2').type(user[i].DueDateDay);
-                        // cy.get('#input_70_422_1').type(user[i].DueDateMonth);
-                        // cy.get('#input_70_422_3').type(user[i].DueDateYear);
+                            // cy.get('.ui-datepicker-year', { timeout: 60000 }).select('2022')
+
+                            // cy.get('.ui-datepicker-month', { timeout: 60000 }).select(user[i].DueDateMonth)
+
+                            // var PregnancyDueDay = user[i].DueDateDay
+                            // cy.get(PregnancyDueDay).click();
+
+
+
+                            // cy.get('#input_70_422_2').type(user[i].DueDateDay);
+                            // cy.get('#input_70_422_1').type(user[i].DueDateMonth);
+                            // cy.get('#input_70_422_3').type(user[i].DueDateYear);
+                        }
+                        cy.wait(4000);
+                        cy.get('#gform_next_button_70_671').click();
                     }
-                    cy.wait(4000);
-                    cy.get('#gform_next_button_70_671').click();
-
                     // Page 10
 
                     var PaymentMethod = user[i].MethodOfPayment;
